@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1 main-content">
+    <h1 class="text-center">Contact List</h1>
+	
+	<!-- Add new contact button -->
+	<div>
+        <a class="btn btn-primary btn-outline btn-add-contact col-lg-12 col-md-12 col-sm-12 " href="#/contacts/new" >ADD NEW CONTACT</a>
+    </div>
+	<div class="row">
+	</div>
+	
+	 <!-- Search... Field -->
+    <form autocomplete="off" role="form">
+      <div class="form-group">
+        <fieldset>
+          <input type="search" name="search" id="search" placeholder="Search..." data-ng-model="search" class="form-control" />
+        </fieldset>
+      </div>
+    </form>
+
+	 <!-- div to show alert message -->
+    <div class="alert alert-warning fade in" data-ng-repeat="alert in alerts track by $index">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-ng-click="closeAlertMessage($index)">X</button>
+      {{ alert.msg }}
+    </div>
+
+	<!-- contacts list data -->
+    <ul class="contact-list" data-ng-if="filteredData.length > 0">
+      <li data-ng-repeat="item in filteredData = (listOfContacts | orderBy:predicate:reverse | filter:search) | startFrom:currentPage*pageSize | limitTo:pageSize track by $index">
+	    
+		<!-- capitalize the first letter of the name -->
+        <div class="first-letter" >
+          <span>{{item.name[0] | capitalize}}</span>
+        </div>
+		
+		<!-- capitalize the first letter of the name -->
+        <img alt="{{item.name}}" ng-src="images/profile_avatar_default.png" />
+        
+		<!-- name and buttons -->
+		<div class="info">
+          <h2 class="title">{{item.name}}</h2>
+		  <h5>{{item.phone | tel}}</h5>
+		  {{item.address}}
+          <ul>
+            <li><a href="#/contacts/{{item.id}}/edit"><i class="fa fa-pencil fa-fw"></i>Edit</a></li>
+            <li><a data-ng-click="delete(item);"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+	
+	<!-- Display a message if there is no contacts data  -->
+	<ul data-ng-if="filteredData.length <= 0">
+	   <h5>No Contacts Found</h5>
+	</ul>
+
+  </div>
+</div>
